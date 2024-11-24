@@ -1,7 +1,26 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Error from "./components/Error";
+import RestaurantMenu from "./components/RastaurantMenu";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import React from "react";
+import { Button } from "@mui/material";
+
+function App() {
+  return (
+    <div className="p-4 bg-pink-800">
+      <Button variant="contained" color="primary" className="mt-4 text-lg">
+        Material-UI with Tailwind
+      </Button>
+    </div>
+  );
+}
+
+export default App;
 
 // const parent = React.createElement(
 //     "div" ,
@@ -76,7 +95,7 @@ import Body from "./components/Body";
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="flex justify-center pb-3">
       <p>
         Copyright &copy; , Made with 💗 by <strong>Adarsh</strong>
       </p>
@@ -84,15 +103,52 @@ const Footer = () => {
   );
 };
 
+const Grocery = lazy(() => import("./components/Grocery"));
+
 const AppLayout = () => {
   return (
     <div className="app">
       <Header />
-      <Body />
+      <Outlet />
       <Footer />
     </div>
   );
 };
 
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/grocery",
+        element: (
+          <Suspense fallback={<h1>Wait....</h1>}>
+            <Grocery />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/restaurant/:resId",
+        element: <RestaurantMenu />,
+      },
+    ],
+    errorElement: <Error />,
+  },
+]);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<AppLayout />);
+
+root.render(<RouterProvider router={appRouter} />);
