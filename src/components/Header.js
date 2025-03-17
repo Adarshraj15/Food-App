@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const [btnNameReact, setBtnNameReact] = useState("Login");
+
   return (
     <div className="flex justify-between bg-pink-200 shadow-md">
       <div className="logo-container">
@@ -17,31 +18,31 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to="./about" className="no-underline-link px-4">
+            <Link to="/about" className="no-underline-link px-4">
               About Us
             </Link>
           </li>
           <li>
-            <Link to="./contact" className="no-underline-link px-4">
+            <Link to="/contact" className="no-underline-link px-4">
               Contact Us
             </Link>
           </li>
           <li>
-            <Link to="./grocery" className="no-underline-link px-4">
+            <Link to="/grocery" className="no-underline-link px-4">
               Grocery
             </Link>
           </li>
           <li className="px-4">Cart</li>
-          <button
-            className="login"
-            onClick={() => {
-              btnNameReact === "Login"
-                ? setBtnNameReact("Logout")
-                : setBtnNameReact("Login");
-            }}
-          >
-            {btnNameReact}
-          </button>
+          <li>
+            <button
+              className="login px-4"
+              onClick={() =>
+                setBtnNameReact(btnNameReact === "Login" ? "Logout" : "Login")
+              }
+            >
+              {btnNameReact}
+            </button>
+          </li>
         </ul>
       </div>
     </div>
